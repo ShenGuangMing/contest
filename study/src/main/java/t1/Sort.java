@@ -1,7 +1,6 @@
 package t1;
 public class Sort {
     public static void main(String[] args) {
-
     }
     public static void selectionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
