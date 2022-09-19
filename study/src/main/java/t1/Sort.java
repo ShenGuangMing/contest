@@ -2,6 +2,7 @@ package t1;
 public class Sort {
     public static void main(String[] args) {
     }
+    //选择排序
     public static void selectionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
@@ -15,6 +16,7 @@ public class Sort {
             swap(arr, i, minIndex);
         }
     }
+    //冒泡排序
     public static void bubbleSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
@@ -27,6 +29,7 @@ public class Sort {
             }
         }
     }
+    //插入排序
     public static void insertionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
