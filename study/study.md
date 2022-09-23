@@ -147,7 +147,7 @@ public class Sort {
     }
 }
 ```
-# 有序查找
+# 二分
 ## 二分-查找一个数
 ```java
 public class Find {
@@ -219,6 +219,233 @@ public class Find {
 }
 ```
 
-## 局部最小问题
+## 二分-局部最小问题
+在无重复元素，无序数组中找局部最小
+```java
+public class Find {
+    //在无重复元素，无序数组中找局部最小
+    public static int localMin(int[] arr) {
+        if (arr[0] < arr[1]) {
+            return 0;
+        }else if (arr[arr.length -1] < arr[arr.length -2]) {
+            return arr.length -1;
+        }
+        int right = arr.length-1;
+        int left = 0;
+        while (left < right) {
+            int curr = (left+right)/2;
+            System.out.println(curr);
+            if (curr-1>=0 && arr[curr] > arr[curr -1]) {
+                right = curr;
+            }else if (curr + 1 < arr.length && arr[curr] > arr[curr +1]) {
+                left = curr;
+            }else {
+                return curr;
+            }
+        }
+        return -1;
+    }
+}
+```
+## 递归-查找最大值
+```java
+public class Find {
+    public static int findMax(int[] arr, int l, int r) {
+        if (l == r)
+            return arr[l];
+        int mid = l +( (r - l)>>1);
+        int leftMax = findMax(arr, l, mid);
+        int rightMax = findMax(arr, mid + 1, r);
+        return Math.max(leftMax, rightMax);
+    }
+}
+```
+
+##  归并排序
+```java
+public class Sort {
+    private static void merge(int[] arr, int l, int mid, int r) {
+        //申请help空间
+        int[] help = new int[r-l+1];
+        int index = 0;
+        int aPoint = l;
+        int bPoint = mid +1;
+        while (aPoint<=mid && bPoint<=r) {
+            help[index++] = arr[aPoint] > arr[bPoint] ? arr[bPoint++] : arr[aPoint++];
+        }
+        while (aPoint <= mid) {
+            help[index++] = arr[aPoint++];
+        }
+        while (bPoint <= r) {
+            help[index++] = arr[bPoint++];
+        }
+        System.arraycopy(help, 0, arr, l, help.length);
+    }
+}
+```
+
+## 小和问题和逆序对问题
+
+### 小和问题
+在一个数组中，每个数左边比当前数小的数累加起来，叫做这个数组的小和。求一个数组的小和
+```java
+public class Merge {
+    public static void main(String[] args) {
+        int[] arr = {1, 3, 2, 2, 5};
+        System.out.println(smallAdd(arr, 0, arr.length - 1));
+    }
+    public static int smallAdd(int[] arr, int l, int r) {
+        if (l == r)
+            return 0;
+        int mid = l +( (r-l)>>1);
+        int sum = 0;
+        sum += smallAdd(arr, l, mid);//左侧排好序求出的小和
+        sum += smallAdd(arr, mid + 1, r);//右侧排好序求出小和
+        sum += merger2(arr, l, mid, r);//左侧和右侧merge起来求小和
+        return sum;
+    }
+
+    private static int merger2(int[] arr, int l, int mid, int r) {
+        //申请help空间
+        int[] help = new int[r-l+1];
+        int index = 0;
+        int sum = 0;
+        int p1 = l;
+        int p2 = mid +1;
+        while (p1 <= mid && p2 <=r ) {
+            if (arr[p1] < arr[p2]) {
+                sum+=(r-p2+1)*arr[p1];
+                help[index++] = arr[p1++];
+            }else {//左大或等都是有指针移动
+                help[index++] = arr[p2++];
+            }
+        }
+        while (p1 <= mid) {
+            help[index++] = arr[p1++];
+        }
+        while (p2 <= r) {
+            help[index++] = arr[p2++];
+        }
+        System.arraycopy(help, 0, arr, l, help.length);
+        return sum;
+    }
+
+}
+```
+
+### 逆序对问题
+在一个数组中 ，左边的数如果比右边的大，则这两个数构成逆序对，请打印所有的逆序对
 
 
+### 荷兰国旗问题  
+ **问题一**：
+
+给定一个数组arr，和一个数num，请把小于等于num放在数组的左边，大于num的数放右边。要求空间复杂度O(1)，时间复杂O(N)
+```java
+public class DutchFlagQuestion {
+    public static void main(String[] args) {
+        int[] arr = {3, 2, 5, 6, 4, 9};
+        question1(arr, 5);
+        System.out.println(Arrays.toString(arr));
+    }
+    public static void question1(int[] arr, int target) {
+        int index = 0;
+        int len = arr.length-1;//数组长度
+        int left = -1;//左边界
+        for (; index<=len; ++index) {
+            if (arr[index] <= target) {
+                swap(arr, index, ++left);
+            }
+        }
+    }
+    public static void swap(int[] arr, int i, int j) {
+        if (i == j)
+            return;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+    }
+}
+```
+**问题二（荷兰国旗问题）**：
+
+给定一个数组arr，和一个数num，请把小于num的数放在数组的左边，等于num的数放在数组的中间，大于num的数放在数组的右边。要求额外空间复杂度0(1)，时间复杂度0(N)
+```java
+public class DutchFlagQuestion {
+    public static void main(String[] args) {
+        int[] arr = {3, 5, 6, 3, 4, 5, 2, 6, 9, 0};
+        question2(arr, 5);
+        System.out.println(Arrays.toString(arr));
+    }
+    
+    public static void question2(int[] arr, int target) {
+        int index = 0;
+        int left = -1;
+        int right = arr.length;
+        while (index < right) {
+            if (arr[index] < target) {
+                swap(arr, index++, ++left);
+            }else if (arr[index] > target) {
+                //index不能向后移，因为交换中的arr[--right]还没有看
+                swap(arr, index, --right);
+            }else {
+                index++;
+            }
+        }
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        if (i == j)
+            return;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+    }
+}
+```
+### 快排
+我的是实现
+```java
+public class QuickSort {
+    public static void main(String[] args) {
+        int[] arr = {3, 5, 6, 3, 4, 5, 2, 6, 9, 6};
+        quickSort2(arr, 0, arr.length-1);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    public static void quickSort2(int[] arr, int left, int right) {
+        if (left < right) {
+            //随机一个作为分界值放到最后
+            swap(arr, left+(int)(Math.random() * (right - left + 1) ), right);
+            int[] p = partition(arr, left, right);
+            quickSort2(arr, left, p[0]);
+            quickSort2(arr, p[1], right);
+        }
+    }
+
+    public static int[] partition(int[] arr, int left, int right) {
+        int l = left -1;//左区
+        int r = right;//右区
+        int target = arr[right];//给定范围中最后的值
+        int index = left;//开始位置
+        while (index < r) {//当遍历到右区就停止
+            if (arr[index] < target) {
+                swap(arr, index++, ++l);
+            }else if (arr[index] > target) {
+                swap(arr, index, --r);//荷兰国旗问题解释了
+            }else {//相等的情况，index向后移
+                index++;
+            }
+        }
+        swap(arr, right, r);//和右区第一个交换
+        return new int[] {l, r+1};
+    }
+    public static void swap(int[] arr, int i, int j) {
+        if (i == j)
+            return;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+    }
+}
+```

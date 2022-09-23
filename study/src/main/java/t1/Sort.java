@@ -1,6 +1,14 @@
 package t1;
+
+import java.util.Arrays;
+
+import static t2.Merge.mergeSort;
+
 public class Sort {
     public static void main(String[] args) {
+        int[] arr = {3, 2, 5, 6, 4, 9};
+        mergeSort(arr, 0, arr.length-1);
+        System.out.println(Arrays.toString(arr));
     }
     //选择排序
     public static void selectionSort(int[] arr) {
@@ -44,6 +52,8 @@ public class Sort {
     public static void swap(int[] arr, int i, int j) {
         arr[i] = arr[i] ^ arr[j];
         arr[j] = arr[i] ^ arr[j];
-        arr[i] = arr[j] ^ arr[i];
+        arr[i] = arr[i] ^ arr[j];
     }
+
+
 }
