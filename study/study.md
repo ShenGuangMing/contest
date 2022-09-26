@@ -40,6 +40,7 @@ a = a^b; //带入，a=3^7^3化简：a=7，b=3
 ```java
 public class Main {
     public static void main(String[] args) {
+        //测试
 //        int i = 6 & (~6 + 1);
 //        for (int i1 = 0; i1 < 10; i1++) {
 //            if ((i&i1)==0) {
@@ -225,6 +226,7 @@ public class Find {
 public class Find {
     //在无重复元素，无序数组中找局部最小
     public static int localMin(int[] arr) {
+        //对数组的两边界进行判断
         if (arr[0] < arr[1]) {
             return 0;
         }else if (arr[arr.length -1] < arr[arr.length -2]) {
@@ -234,7 +236,6 @@ public class Find {
         int left = 0;
         while (left < right) {
             int curr = (left+right)/2;
-            System.out.println(curr);
             if (curr-1>=0 && arr[curr] > arr[curr -1]) {
                 right = curr;
             }else if (curr + 1 < arr.length && arr[curr] > arr[curr +1]) {
@@ -264,6 +265,16 @@ public class Find {
 ##  归并排序
 ```java
 public class Sort {
+    
+    public static void mergeSort(int[] arr, int l, int r) {
+        if (l == r) {
+            return;
+        }
+        int mid = l +( (r-l)>>1);
+        mergeSort(arr, l, mid);
+        mergeSort(arr, mid+1, r);
+        merge(arr, l, mid, r);
+    }
     private static void merge(int[] arr, int l, int mid, int r) {
         //申请help空间
         int[] help = new int[r-l+1];
@@ -449,3 +460,209 @@ public class QuickSort {
     }
 }
 ```
+
+### 堆排序 
+#### 大根堆
+二叉树中，所有的根节点都比他的子节点大
+
+在数组中最后插入一个数，让整个数组是大根堆
+```java
+public class HeapSort {
+    public static void main(String[] args) {
+        int[] arr = {8, 7, 3, 6, 5, 1, 2, 7};
+        heapInsert(arr, 7);//0-6已经是大根堆，7还没有排
+        System.out.println(Arrays.toString(arr));
+
+    }
+
+    public static void heapInsert(int[] arr, int index) {
+        while(arr[index] > arr[(index-1)/2]){//这插入的新位置的数是否比我的父节点大
+            swap(arr, index, (index-1)/2);//大就交换
+            index = (index-1)/2;//跟新为父节点的位置
+        }
+    }
+    public static void swap(int[] arr, int i, int j) {
+        if (i == j)
+            return;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+    }
+}
+```
+在数组中原本就是大根堆，我们在根位置的数修改，让他最后是大根堆
+```java
+public class HeapSort {
+    public static void main(String[] args) {
+        int[] arr = {1, 7, 8, 6, 5, 3, 2};
+        heapify(arr, 0, 7);
+        System.out.println(Arrays.toString(arr));
+    }
+
+
+    public static void heapify(int[] arr, int index, int heapSize) {
+        int left = index*2+1;//左孩子下标
+        while (left  <  heapSize) {//存在左儿子
+            int largest = index*2+1;//假如当前左儿子是最大的
+            if (index*2+2 < heapSize) {//存在右儿子
+                largest = arr[largest] > arr[left+1]? largest : left+1;//左右儿子大的下标
+            }
+            largest = arr[largest] > arr[index]? largest: index;//最大儿子和父节点比
+            if (arr[largest] == arr[index])
+                break;
+            swap(arr, index, largest);
+            index = largest;
+            left =  index*2+1;//新左儿子
+        }
+    }
+    public static void swap(int[] arr, int i, int j) {
+        if (i == j)
+            return;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+    }
+}
+```
+
+### 堆排序
+1，先让整个数组都变成大根堆结构，建立堆的过程:
+
+    1)从上到下的方法，时间复杂度为0(N*logN)
+
+    2)从下到上的方法，时间复杂度为0(N)
+2，把堆的最大值和堆末尾的值交换，然后减少堆的大小之后，再去调整堆，一直周而复始，时间复杂度为O(N*logN)
+
+3，堆的大小减小成0之后，排序完成
+
+
+```java
+public class HeapSort {
+    public static void main(String[] args) {
+        int[] arr = {8, 7, 3, 6, 5, 1, 2, 7};
+        heapSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+    public static void heapSort(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+        int heapSize = 0;
+        while (heapSize < arr.length) {
+            heapInsert(arr, heapSize++);//插入
+        }
+        while (heapSize > 0) {
+            swap(arr, 0, --heapSize);//先交换，heapSize再减小
+            heapify(arr, 0, heapSize);
+        }
+    }
+
+    public static void heapInsert(int[] arr, int index) {
+        while(arr[index] > arr[(index-1)/2]){//这插入的新位置的数是否比我的父节点大
+            swap(arr, index, (index-1)/2);//大就交换
+            index = (index-1)/2;//跟新为父节点的位置
+        }
+    }
+
+    public static void heapify(int[] arr, int index, int heapSize) {
+        int left = index*2+1;//左孩子下标
+        while (left  <  heapSize) {//存在左儿子
+            int largest = index*2+1;//假如当前左儿子是最大的
+            if (left+1 < heapSize) {//存在右儿子
+                largest = arr[largest] > arr[left+1]? largest : left+1;//左右儿子大的下标
+            }
+            largest = arr[largest] > arr[index]? largest: index;//最大儿子和父节点比
+            if (arr[largest] == arr[index])
+                break;
+            swap(arr, index, largest);
+            index = largest;
+            left =  index*2+1;//新左儿子
+        }
+    }
+    public static void swap(int[] arr, int i, int j) {
+        if (i == j)
+            return;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+    }
+}
+```
+```java
+public class HeapSort {
+    public static void main(String[] args) {
+        int[] arr = {8, 7, 3, 6, 5, 1, 2, 7};
+        heapSort2(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+    public static void heapSort2(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+        for (int i = arr.length-1; i>=0; i--) {
+            heapify(arr, i, arr.length);
+        }
+        int heapSize = arr.length;
+        while (heapSize > 0) {
+            swap(arr, 0, --heapSize);
+            heapify(arr, 0, heapSize);
+        }
+    }
+    public static void heapify(int[] arr, int index, int heapSize) {
+        int left = index*2+1;//左孩子下标
+        while (left  <  heapSize) {//存在左儿子
+            int largest = index*2+1;//假如当前左儿子是最大的
+            if (left+1 < heapSize) {//存在右儿子
+                largest = arr[largest] > arr[left+1]? largest : left+1;//左右儿子大的下标
+            }
+            largest = arr[largest] > arr[index]? largest: index;//最大儿子和父节点比
+            if (arr[largest] == arr[index])
+                break;
+            swap(arr, index, largest);
+            index = largest;
+            left =  index*2+1;//新左儿子
+        }
+    }
+    public static void swap(int[] arr, int i, int j) {
+        if (i == j)
+            return;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+    }
+}
+```
+
+### 小根堆的使用
+```java
+package t2;
+
+import java.util.Arrays;
+import java.util.PriorityQueue;
+
+public class HeapSort {
+    public static void main(String[] args) {
+        int[] arr = {8, 7, 3, 6, 5, 1, 2, 7};
+        heapSort2(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+    public static void smallRootHeap() {
+        PriorityQueue<Integer> heap = new PriorityQueue<>();//优先级队列
+        heap.add(8);
+        heap.add(3);
+        heap.add(7);
+        heap.add(5);
+        heap.add(9);
+        heap.add(9);
+        heap.add(4);
+        heap.add(2);
+        while (!heap.isEmpty()) {
+            System.out.println(heap.poll());
+        }
+    }
+}
+```
+
+### 堆排序扩展功能
+已知一个几乎有序的数组，几乎有序是指，如果把数组排好顺序的话，每个元素移动的距离可以不超过k，并且k相对于数组来说比较小。请选择一个合适的排序算法针对这个数据进行排序。
+

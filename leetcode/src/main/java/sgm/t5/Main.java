@@ -25,7 +25,6 @@ public class Main {
         int bPoint = n-1;//nums2尾指针
         int putPoint = nums1.length-1;
         for (;putPoint >= 0; putPoint--) {
-//            System.out.println("aPoint: " + aPoint + " bPoint: " + bPoint);
             if (aPoint >= 0 && (bPoint < 0 || nums1[aPoint] > nums2[bPoint])) {
                 nums1[putPoint] = nums1[aPoint--];
             }else if(bPoint >= 0){
