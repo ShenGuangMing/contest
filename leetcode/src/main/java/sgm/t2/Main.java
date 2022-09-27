@@ -2,8 +2,6 @@ package sgm.t2;
 
 import sgm.entity.ListNode;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         Main main = new Main();

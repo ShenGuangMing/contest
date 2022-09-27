@@ -2,8 +2,6 @@ package sgm.t11;
 
 import sgm.entity.ListNode;
 
-import java.util.HashMap;
-
 /*
 题目：环形链表
 

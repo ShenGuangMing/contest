@@ -1,6 +1,7 @@
 package sgm.t12;
 
 import sgm.entity.ListNode;
+
 /*
 题目：环形链表||
 

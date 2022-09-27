@@ -506,7 +506,9 @@ public class Main {
 不允许修改 链表。
 
 **思路**
+
 ![](../images/leetcode-142环形链表2.png)
+
 设如果存在环形链表，他的结构为：a+b+c
 - a：环前节点数
 - b：相遇节点数（从a后开始算）
@@ -516,6 +518,7 @@ public class Main {
         
     f=a+n圈(b+c)+b(重合点)
 得：a = c + (n-1)(b+c)
+
 **code:**
 ```java
 public class Main {
@@ -544,4 +547,36 @@ public class Main {
     }
 }
 ```
+## 1.13 反转链表
+题目：反转链表
 
+链接：https://leetcode.cn/problems/fan-zhuan-lian-biao-lcof/
+
+要求：定义一个函数，输入一个链表的头节点，反转该链表并输出反转后链表的头节点。
+
+**code**
+```java
+public class Test1 {
+    public static void main(String[] args) {
+        Test1 t = new Test1();
+        ListNode listNode = NodeUtil.initLinked();
+        ListNode reverse = t.reverseList(listNode);
+        NodeUtil.printLinkedList(reverse);
+    }
+    public ListNode reverseList(ListNode head) {
+        if (head == null)
+            return null;
+        ListNode n1 = head;
+        ListNode n2 = n1.next;
+        ListNode n3 = null;
+        n1.next = null;//将头节点下个只想null
+        while (n2 != null) {
+            n3 = n2.next;//最后一个后移
+            n2.next = n1;//当前节点向前指
+            n1 = n2;//第一个节点等于当前节点
+            n2 = n3;
+        }
+        return n1;
+    }
+}
+```

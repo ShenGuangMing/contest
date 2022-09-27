@@ -8,14 +8,14 @@ package sgm.t10;
  */
 
 import sgm.entity.ListNode;
-import sgm.util.ListNodeUtil;
+import sgm.util.NodeUtil;
 
 public class Main {
     public static void main(String[] args) {
         Main main = new Main();
-        ListNode head = ListNodeUtil.initLinked();
+        ListNode head = NodeUtil.initLinked();
         ListNode listNode = main.deleteDuplicates(head);
-        ListNodeUtil.printLinkedList(listNode);
+        NodeUtil.printLinkedList(listNode);
     }
     public ListNode deleteDuplicates(ListNode head) {
         if (head == null)
