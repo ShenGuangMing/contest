@@ -83,16 +83,15 @@ public class ListPartition {
             }
             cur = cur.next;
         }
+        //让每个区域结尾指向空
         if (sT != null)
             sT.next = null;
         if (eT != null)
             eT.next = null;
         if (mT != null)
             mT.next = null;
-        NodeUtil.printLinkedList(sH);
-        NodeUtil.printLinkedList(eH);
-        NodeUtil.printLinkedList(mH);
-        //1 4 3 5 2
+
+        //串法一：判断
 //        if (sT != null) {
 //            if (eT != null) {//小有等有
 //                sT.next = eH;
@@ -110,13 +109,13 @@ public class ListPartition {
 //                return mH;
 //            }
 //        }
-
-        if (sT != null) {
-            sT.next = eH;
-            eT = eT == null ? sT : eT;
+        //串法二：
+        if (sT != null) {//小于区存在
+            sT.next = eH;//小于区尾连上等于区头
+            eT = eT == null ? sT : eT;//等于区尾不存在就让小于区的尾作为等于区尾
         }
-        if (eT != null) {
-            eT.next = mH;
+        if (eT != null) {//存在eT
+            eT.next = mH;//连上大于区头
         }
         return sH != null? sH : (mH != null ? mH : eT);
     }
