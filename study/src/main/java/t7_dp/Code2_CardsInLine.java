@@ -34,10 +34,6 @@ public class Code2_CardsInLine {
         }
         int first = f2(arr, 0, N - 1, fMap, gMap);
         int second = g2(arr, 0, N - 1, fMap, gMap);
-//        System.out.println("fMap:");
-//        ArrayUtil.print2Arr(fMap, N, N);
-//        System.out.println("gMap");
-//        ArrayUtil.print2Arr(gMap, N, N);
         return Math.max(first, second);
     }
 
