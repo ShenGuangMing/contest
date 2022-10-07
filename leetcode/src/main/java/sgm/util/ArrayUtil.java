@@ -13,6 +13,24 @@ public class ArrayUtil {
             System.out.println();
         }
     }
+    public static void fill(int[][] arr, int target) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                arr[i][j] = target;
+            }
+        }
+    }
+    public static void print2Arr(int[][] arr) {
+                for (int[] ints : arr) {
+                    for (int anInt : ints) {
+                        if (anInt == -1) {
+                            System.out.printf("%-5d", 0);
+                        } else
+                            System.out.printf("%-5d", anInt);
+                    }
+                    System.out.println();
+                }
+    }
     public static void print2Arr2(int[][] arr1, int[][] arr2, int x, int y) {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {

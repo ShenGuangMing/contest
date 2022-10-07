@@ -28,7 +28,7 @@ public class Main {
                 /*
                     s = abccb
                     一直到第一个c left = 0，第二个c的时候 left = get(c)+1=3
-                    执行到第二个b前 left = 3，然后 left = max(left, get(c))=max(3, 2)
+                    执行到第二个b前 left = 3，然后 left = max(left, get(b))=max(3, 2)
                  */
                 left = Math.max(left, map.get(c)+1);//修改起点（滑动）
             }

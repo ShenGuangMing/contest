@@ -16,7 +16,7 @@ import java.util.Arrays;
  */
 public class Test7 {
     public static void main(String[] args) {
-        int[] nums = {1,2,0,1,1,4,0,0,0};
+        int[] nums = {3,2,2,0,4};
         Test7 t = new Test7();
         System.out.println(t.jump(nums));
         System.out.println(jump2(nums));
@@ -44,7 +44,7 @@ public class Test7 {
         int[] dp = new int[N];
         dp[N-1] = 0;//边界设值0，因为到终点不需要走了
         for (int i = N-2; i>=0; i--) {
-            int min = 10000;//设置的最小步数
+            int min = Integer.MAX_VALUE-1;//设置的最小步数
             for (int j = 0; j < nums[i]; j++) {//能走的范围
                 int index = i+j+1;//这一步能走的下标能到哪里
                 int n = 0;
@@ -58,14 +58,14 @@ public class Test7 {
             }
             dp[i] = min;
         }
-        return dp[0];
+        return dp[0] ==  Integer.MAX_VALUE-1? 0 : dp[0];
     }
     //递归加傻缓存
     public static int jump2(int[] nums) {
         int[] dp = new int[nums.length];
         int res = process2(nums, 0, dp);
         System.out.println(Arrays.toString(dp));
-        return res;
+        return res == Integer.MAX_VALUE-1? 0 : res;
     }
     public static int process2(int[] nums, int cur, int[] dp) {
         if (cur >= nums.length-1) {
@@ -75,7 +75,7 @@ public class Test7 {
         if (dp[cur] != 0) {
             return dp[cur];
         }
-        int min = 100;
+        int min = Integer.MAX_VALUE-1;
         int n = 0;
         for (int i = 0; i < nums[cur]; i++) {
             n = 1+process2(nums, cur+(i+1), dp);
@@ -92,9 +92,9 @@ public class Test7 {
     public static int process1(int[] nums,int cur) {
         if (cur >= nums.length-1)
             return 0;
-        int min = Integer.MAX_VALUE;
+        int min = Integer.MAX_VALUE-1;
         int n = 0;
-        for (int i = 0; i < nums[cur]; i++) {
+        for (int i = 0; i < nums[cur]; i++) {//自己能走的范围
             n = 1+process1(nums, cur+(i+1));
             min = Math.min(n, min);
         }
