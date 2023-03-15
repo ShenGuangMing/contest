@@ -10,8 +10,8 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
         Main main = new Main();
-        System.out.println(main.otherMethod1(10));
-        System.out.println(main.climbStairs(10));
+        System.out.println(main.otherMethod1(4));
+        System.out.println(main.climbStairs(4));
     }
     Map<Integer, Integer> map = new HashMap<Integer, Integer>();
     public int climbStairs(int n) {

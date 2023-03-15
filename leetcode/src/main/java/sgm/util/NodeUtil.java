@@ -1,6 +1,7 @@
 package sgm.util;
 
 import sgm.entity.ListNode;
+import sgm.entity.TreeNode;
 
 import java.util.Scanner;
 
@@ -21,8 +22,23 @@ public class NodeUtil {
     }
     public static void printLinkedList(ListNode head) {
         while (head != null) {
-            System.out.println(head.val);
+            System.out.print(head.val + " ");
             head = head.next;
         }
+        System.out.println();
+    }
+    public static void printPreOrderTreeNodes(TreeNode node) {
+        if (node == null)
+            return;
+        System.out.print(node.val+" ");
+        printPreOrderTreeNodes(node.left);
+        printPreOrderTreeNodes(node.right);
+    }
+    public static void printInOrderTreeNodes(TreeNode node) {
+        if (node == null)
+            return;
+        printInOrderTreeNodes(node.left);
+        System.out.print(node.val + " ");
+        printInOrderTreeNodes(node.right);
     }
 }

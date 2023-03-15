@@ -17,4 +17,10 @@ public class Test1 {
         s1.setName("sgm");
         System.out.println(map.get(1));
     }
+
+    @Test
+    public void test2() {
+        String s = String.valueOf("123");
+        System.out.println(  s== "123");
+    }
 }

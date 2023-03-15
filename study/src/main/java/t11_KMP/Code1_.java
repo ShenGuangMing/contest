@@ -22,7 +22,6 @@ public class Code1_ {
             }
         }
         return i2 == m.length() ? i1 - i2 : -1;
-
     }
 
     private static int[] getNextArray(char[] s2) {

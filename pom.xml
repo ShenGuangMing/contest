@@ -12,6 +12,7 @@
         <module>leetcode</module>
         <module>acm</module>
         <module>study</module>
+        <module>lanqiao</module>
     </modules>
 
     <properties>

@@ -1169,7 +1169,7 @@ public class Test5 {
 
     }
     public boolean CheckPermutation(String s1, String s2) {
-        if (s1.length() != s2.length())
+        if (s1.length() != s2.length()) 
             return false;
         int sum1 = Integer.MIN_VALUE;
         int sum2 = 0;

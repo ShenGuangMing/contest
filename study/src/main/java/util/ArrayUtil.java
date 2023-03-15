@@ -13,6 +13,14 @@ public class ArrayUtil {
             System.out.println();
         }
     }
+    public static void print2Arr(int[][] arr) {
+        for (int[] oneArr : arr) {
+            for (int num : oneArr) {
+                System.out.printf("%4d", num);
+            }
+            System.out.println();
+        }
+    }
     public static void print2Arr2(int[][] arr1, int[][] arr2, int x, int y) {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
